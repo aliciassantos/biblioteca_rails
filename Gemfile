@@ -64,3 +64,8 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+gem "kaminari", "~> 1.2"
+gem "devise", "~> 5.0"
+gem "twitter-bootstrap-rails", "~> 5.3"
+gem "prawn", "~> 2.4"
