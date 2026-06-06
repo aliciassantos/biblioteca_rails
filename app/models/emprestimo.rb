@@ -10,9 +10,9 @@ class Emprestimo < ApplicationRecord
   # Método próprio para verificar a data de devolução
   validate :data_devolucao_nao_pode_ser_no_passado
 
-  #Verifica se a data de devolução já expirou
-  def devolucao_vencida? 
-    if data_devolucao.present? && data_devolucao < Date.today  && status == 'Emprestado' 
+  # Verifica se a data de devolução já expirou
+  def devolucao_vencida?
+    if data_devolucao.present? && data_devolucao < Date.today  && status == "Emprestado"
       true
     else
       false
@@ -21,7 +21,7 @@ class Emprestimo < ApplicationRecord
 
   private
 
-  #Verifica se a data de devolução foi preenchida corretamente
+  # Verifica se a data de devolução foi preenchida corretamente
   def data_devolucao_nao_pode_ser_no_passado
     if data_devolucao.present? && data_emprestimo.present? && data_devolucao < data_emprestimo
       errors.add(:data_devolucao, "não pode ser anterior à data de empréstimo")
@@ -29,6 +29,6 @@ class Emprestimo < ApplicationRecord
   end
 
   # Busca pre-definidas
-  scope :emprestados, -> { where(status: 'Emprestado') }
-  scope :devolvidos, -> { where(status: 'Devolvido') }
+  scope :emprestados, -> { where(status: "Emprestado") }
+  scope :devolvidos, -> { where(status: "Devolvido") }
 end

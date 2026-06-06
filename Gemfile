@@ -65,6 +65,7 @@ group :test do
   gem "selenium-webdriver"
 end
 
+gem "csv"
 gem "kaminari", "~> 1.2"
 gem "devise", "~> 5.0"
 gem "twitter-bootstrap-rails", "~> 5.3"

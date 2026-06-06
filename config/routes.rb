@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get "home/index"
   resources :emprestimos
   resources :livros
   resources :alunos
@@ -14,4 +15,7 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+
+  # Define a rota raiz para a página inicial do site
+  root "home#index"
 end
