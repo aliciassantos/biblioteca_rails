@@ -1,10 +1,54 @@
-<p style="color: green"><%= notice %></p>
+<% content_for :title, "Empréstimo - BiblioLili&Nana" %>
 
-<%= render @emprestimo %>
+<div class="container my-5" style="max-width: 800px;">
+  <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+    
+    <div class="card-header bg-dark p-4 border-0">
+      <div class="d-flex align-items-center justify-content-between text-white">
+        <div>
+          <h2 class="fw-bold mb-0">Empréstimo</h2>
+          <p class="text-info small mb-0">Dados cadastrais registrados no MySQL</p>
+        </div>
+        <span class="fs-1 opacity-50">👤</span>
+      </div>
+    </div>
 
-<div>
-  <%= link_to "Edit this emprestimo", edit_emprestimo_path(@emprestimo) %> |
-  <%= link_to "Back to emprestimos", emprestimos_path %>
+    <div class="card-body p-4 p-md-5 bg-white">
+      <div class="row g-4">
+        
+        <div class="col-md-12 border-bottom pb-2">
+          <span class="text-secondary small d-block fw-bold text-uppercase">Nome Completo do Aluno</span>
+          <span class="fs-4 fw-bold text-dark"><%= @emprestimo.aluno.nome_completo %></span>
+        </div>
 
-  <%= button_to "Destroy this emprestimo", @emprestimo, method: :delete %>
+        <div class="col-md-6 border-bottom pb-2">
+          <span class="text-secondary small d-block fw-bold text-uppercase">Título do Livro</span>
+          <code class="fs-5 text-primary fw-bold"><%= @emprestimo.livro.titulo %></code>
+        </div>
+
+        <div class="col-md-6 border-bottom pb-2">
+          <span class="text-secondary small d-block fw-bold text-uppercase">Status do empréstimo</span>
+          <code class="fs-5 text-primary fw-bold"><%= @emprestimo.status %></code>
+        </div>
+
+        <div class="col-md-6 border-bottom pb-2">
+          <span class="text-secondary small d-block fw-bold text-uppercase">Data de empréstimo</span>
+          <span class="fs-5 text-dark"><%= @emprestimo.data_emprestimo.strftime('%d/%m/%Y') if @emprestimo.data_emprestimo %></span>
+        </div>
+
+        <div class="col-md-6 border-bottom pb-2">
+          <span class="text-secondary small d-block fw-bold text-uppercase">Data de devolução</span>
+          <span class="fs-5 text-dark"><%= @emprestimo.data_devolucao.strftime('%d/%m/%Y') if @emprestimo.data_devolucao %></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-footer bg-light p-4 border-0 d-flex justify-content-between align-items-center">
+      <%= link_to emprestimos_path, class: "btn btn-outline-secondary px-4 fw-semibold rounded-3" do %>
+        📁 Voltar para Listagem
+      <% end %>
+      </div>
+    </div>
+
+  </div>
 </div>

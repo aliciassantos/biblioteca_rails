@@ -1,16 +1,74 @@
-<p style="color: green"><%= notice %></p>
+<!-- Este helper altera o título na aba do navegador -->
+<% content_for :title, "Livros - BiblioLili&Nana" %>
 
-<% content_for :title, "Livros" %>
+<div class="container my-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h1 class="fw-bold text-dark mb-1">Consulta de Livros</h1>
+      <p class="text-muted small mb-0">Gerenciamento de livros no sistema BiblioLili&Nana.</p>
+    </div>
+    <div class="d-flex gap-2">
+      <% # Requisito d) PDF com Prawn %>
+      <%= link_to livros_path(format: :pdf), class: "btn btn-danger shadow-sm d-inline-flex align-items-center gap-2 fw-bold" do %>
+        📊 Gerar PDF (Prawn)
+      <% end %>
+      <%= link_to new_livro_path, class: "btn btn-primary shadow-sm d-inline-flex align-items-center gap-2 fw-bold" do %>
+        ➕ Novo Livro
+      <% end %>
+    </div>
+  </div>
 
-<h1>Livros</h1>
+  <div class="card shadow-sm border-0 rounded-3 overflow-hidden">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-dark">
+          <tr>
+            <th scope="col" class="ps-4">ID</th>
+            <th scope="col">Título</th>
+            <th scope="col">Autor</th>
+            <th scope="col">Editora</th>
+            <th scope="col">ISBN</th>
+            <th scope="col">Ano de Publicação</th>
+            <th scope="col">Quantidade em estoque</th>
+            <th scope="col" class="text-center pe-4">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Verifica se existe livros cadastrados -->
+          <% if @livros.any? %>
+          <!-- Gera uma linha na tabela para cada livro cadastrado -->
+            <% @livros.each do |livro| %>
+              <tr>
+                <td class="ps-4 text-secondary fw-semibold"><%= livro.id %></td>
+                <td><span class="fw-bold text-dark"><%= livro.titulo %></span></td>
+                <td><code class="text-secondary"><%= livro.autor %></code></td>
+                <td><%= livro.editora %></td>
+                <td><%= livro.isbn %></td>
+                <td><%= livro.ano_publicacao %></td>
+                <td><%= livro.quantidade_estoque %></td>
+                <td class="text-center pe-4">
+                  <!-- Opções de ver, remover e atualizar livros -->
+                  <div class="d-flex gap-2 justify-content-center">
+                    <%= link_to "Ver", livro, class: "btn btn-sm btn-outline-info flex-fill" %>
+                    <%= link_to "Editar", edit_livro_path(livro), class: "btn btn-sm btn-outline-warning flex-fill" %>
+                    <%= link_to "Remover", livro, data: { turbo_method: :delete, turbo_confirm: "Deseja remover este livro?" }, class: "btn btn-sm btn-outline-danger flex-fill" %>
+                  </div>
+                </td>
+              </tr>
+            <% end %>
+          <% else %>
+            <tr>
+              <!-- Exibe essa mensagem se não tiver nenhum livro cadastrado -->
+              <td colspan="6" class="text-center py-5 text-muted">Nenhum livro cadastrado no sistema.</td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
-<div id="livros">
-  <% @livros.each do |livro| %>
-    <%= render livro %>
-    <p>
-      <%= link_to "Show this livro", livro %>
-    </p>
-  <% end %>
+  <% # Requisito a) Paginação do Kaminari %>
+  <div class="d-flex justify-content-center mt-4">
+    <%= paginate @livros if @livros.respond_to?(:current_page) %>
+  </div>
 </div>
-
-<%= link_to "New livro", new_livro_path %>

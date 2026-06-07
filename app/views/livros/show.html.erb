@@ -1,10 +1,76 @@
-<p style="color: green"><%= notice %></p>
+<!--show.html.erb é a pagina que exibe os dados de um livro específico -->
+<% content_for :title, "Livro - BiblioLili&Nana" %>
 
-<%= render @livro %>
+<div class="container my-5" style="max-width: 800px;">
+  <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+    
+    <div class="card-header bg-dark p-4 border-0">
+      <div class="d-flex align-items-center justify-content-between text-white">
+        <div>
+          <h2 class="fw-bold mb-0">Cadastro do Livro</h2>
+          <p class="text-info small mb-0">Dados cadastrais registrados no MySQL</p>
+        </div>
+        <span class="fs-1 opacity-50">👤</span>
+      </div>
+    </div>
 
-<div>
-  <%= link_to "Edit this livro", edit_livro_path(@livro) %> |
-  <%= link_to "Back to livros", livros_path %>
+    <div class="card-body p-4 p-md-5 bg-white">
+      <div class="row g-4">
+        <!-- Exibe o título -->
+        <div class="col-md-12 border-bottom pb-2">
+          <span class="text-secondary small d-block fw-bold text-uppercase">Título</span>
+          <span class="fs-4 fw-bold text-dark"><%= @livro.titulo %></span>
+        </div>
 
-  <%= button_to "Destroy this livro", @livro, method: :delete %>
+        <!-- Exibe o autor -->
+        <div class="col-md-6 border-bottom pb-2">
+          <span class="text-secondary small d-block fw-bold text-uppercase">Autor</span>
+          <code class="fs-5 text-primary fw-bold"><%= @livro.autor %></code>
+        </div>
+
+        <!-- Exibe as editoras -->
+        <div class="col-md-6 border-bottom pb-2">
+          <span class="text-secondary small d-block fw-bold text-uppercase">Editora</span>
+          <span class="fs-5 text-dark fw-semibold"><%= @livro.editora %></span>
+        </div>
+
+        <!-- Exibe o ISBN -->
+        <div class="col-md-6 border-bottom pb-2">
+          <span class="text-secondary small d-block fw-bold text-uppercase">ISBN</span>
+          <span class="fs-5 text-dark"><%= @livro.isbn %></span>
+        </div>
+
+        <!-- Exibe o ano de publicação -->
+        <div class="col-md-6 border-bottom pb-2">
+          <span class="text-secondary small d-block fw-bold text-uppercase">Ano de publicação</span>
+          <span class="fs-5 text-dark"><%= @livro.ano_publicacao %></span>
+        </div>
+
+        <!-- Exibe a quantidade em estoque -->
+        <div class="col-md-6 border-bottom pb-2">
+          <span class="text-secondary small d-block fw-bold text-uppercase">Quantidade em estoque</span>
+          <span class="fs-5 text-dark"><%= @livro.quantidade_estoque %></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Redireciona para a aba de listagem -->
+    <div class="card-footer bg-light p-4 border-0 d-flex justify-content-between align-items-center">
+      <%= link_to livros_path, class: "btn btn-outline-secondary px-4 fw-semibold rounded-3" do %>
+        📁 Voltar para Listagem
+      <% end %>
+
+    <!-- Redireciona para a atualização de um livro -->
+      <div class="d-flex gap-2">
+        <%= link_to edit_livro_path(@livro), class: "btn btn-warning text-white px-4 fw-bold rounded-3 shadow-sm" do %>
+          📝 Editar Dados
+        <% end %>
+    <!-- Remove o livro -->
+        <%= button_to @livro, method: :delete, data: { turbo_confirm: "Tem certeza que deseja excluir o cadastro deste livro permanentemente?" }, class: "btn btn-danger px-4 fw-bold rounded-3 shadow-sm" do %>
+          ❌ Remover Livro
+        <% end %>
+      </div>
+    </div>
+
+  </div>
 </div>

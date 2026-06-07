@@ -1,12 +1,31 @@
-<% content_for :title, "Editing livro" %>
+<% content_for :title, "Editar Livro - BiblioLili&Nana" %>
 
-<h1>Editing livro</h1>
+<div class="container my-5" style="max-width: 800px;">
+  <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+    
+    <div class="card-header bg-dark p-4 border-0">
+      <div class="d-flex align-items-center justify-content-between text-white">
+        <div>
+          <h2 class="fw-bold mb-0">Modificar Cadastro</h2>
+          <p class="text-info small mb-0">Altere as informações necessárias do livro</p>
+        </div>
+        <span class="fs-1 opacity-50">📝</span>
+      </div>
+    </div>
 
-<%= render "form", livro: @livro %>
+    <div class="card-body p-4 p-md-5 bg-white">
+      <%= render "form", livro: @livro %>
+    </div>
 
-<br>
+    <div class="card-footer bg-light p-3 text-center border-0 d-flex justify-content-center gap-3">
+      <%= link_to @livro, class: "text-decoration-none text-info d-inline-flex align-items-center gap-1 fw-bold small" do %>
+        🔍 Visualizar Livro
+      <% end %>
+      <span class="text-muted">|</span>
+      <%= link_to livros_path, class: "text-decoration-none text-secondary d-inline-flex align-items-center gap-1 fw-bold small" do %>
+        📁 Voltar para Listagem
+      <% end %>
+    </div>
 
-<div>
-  <%= link_to "Show this livro", @livro %> |
-  <%= link_to "Back to livros", livros_path %>
+  </div>
 </div>

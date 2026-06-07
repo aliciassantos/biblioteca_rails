@@ -1,9 +1,9 @@
 <%= form_with(model: emprestimo) do |form| %>
+  <!--Verifica se há erros no formulário-->
   <% if emprestimo.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(emprestimo.errors.count, "error") %> prohibited this emprestimo from being saved:</h2>
-
-      <ul>
+    <div class="alert alert-danger shadow-sm rounded-3 mb-4">
+      <h5 class="fw-bold mb-2">⚠️ O formulário contém erros:</h5>
+      <ul class="mb-0 small">
         <% emprestimo.errors.each do |error| %>
           <li><%= error.full_message %></li>
         <% end %>
@@ -11,32 +11,26 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :aluno_id, style: "display: block" %>
-    <%= form.text_field :aluno_id %>
-  </div>
+  <div class="row g-3">
+    <div class="col-md-12">
+      <%= form.label :matricula_aluno, "Matrícula do Aluno", class: "form-label fw-bold text-secondary small" %>
+      <%= form.text_field :matricula_aluno, class: "form-control shadow-sm", placeholder: "Insira a matrícula do Aluno" %>
+    </div>
 
-  <div>
-    <%= form.label :livro_id, style: "display: block" %>
-    <%= form.text_field :livro_id %>
-  </div>
+    <div class="col-md-6">
+      <%= form.label :isbn_livro, "ISBN", class: "form-label fw-bold text-secondary small" %>
+      <%= form.text_field :isbn_livro, class: "form-control shadow-sm", placeholder: "Ex: 0983341752153", maxlength: 13 %>
+    </div>
 
-  <div>
-    <%= form.label :data_emprestimo, style: "display: block" %>
-    <%= form.date_field :data_emprestimo %>
-  </div>
+    <div class="col-md-6">
+      <%= form.label :data_devolucao, "Data de devolução", class: "form-label fw-bold text-secondary small" %>
+      <%= form.date_field :data_devolucao, class: "form-control shadow-sm" %>
+    </div>
 
-  <div>
-    <%= form.label :data_devolucao, style: "display: block" %>
-    <%= form.date_field :data_devolucao %>
-  </div>
-
-  <div>
-    <%= form.label :status, style: "display: block" %>
-    <%= form.text_field :status %>
-  </div>
-
-  <div>
-    <%= form.submit %>
+    </div> <%= form.hidden_field :data_emprestimo, value: Date.today %>
+    
+  <div class="d-flex gap-2 justify-content-end mt-4 pt-3 border-top">
+    <%= link_to "Voltar", emprestimos_path, class: "btn btn-light border px-4" %>
+    <%= form.submit "Realizar Empréstimo", class: "btn btn-primary px-4 fw-bold shadow-sm" %>
   </div>
 <% end %>

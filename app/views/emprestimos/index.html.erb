@@ -1,10 +1,14 @@
+<% content_for :title, "Empréstimos - BiblioLili&Nana" %>
 <div class="container mt-4">
   <div class="d-flex justify-content-between align-items-center mb-4">
-    <h1 class="text-warning font-weight-bold">Controle de Empréstimos</h1>
-    <%= link_to "Novo Empréstimo", new_emprestimo_path, class: "btn btn-warning text-white px-4 shadow-sm" %>
+    <div> 
+      <h1 class="text-primary font-weight-bold">Controle de Empréstimos</h1>
+      <p class="text-muted small">Gerenciamento de discentes no sistema BiblioLili&Nana.</p>
+    </div> 
+    <%= link_to "➕ Novo Empréstimo", new_emprestimo_path, class: "btn btn-primary text-white px-4 shadow-sm" %>
   </div>
 
-  <div class="card shadow-sm">
+  <div class="card shadow-sm border-0 rounded-3 overflow-hidden">
     <div class="card-body p-0">
       <table class="table table-striped table-hover mb-0">
         <thead class="table-dark">
@@ -26,16 +30,20 @@
                 <td class="align-middle"><%= emprestimo.data_emprestimo.strftime('%d/%m/%Y') %></td>
                 <td class="align-middle"><%= emprestimo.data_devolucao.strftime('%d/%m/%Y') %></td>
                 <td class="align-middle">
+                  <!-- Verifica o status do empréstimo -->
                   <% if emprestimo.status == "Devolvido" %>
                     <span class="badge bg-success">Devolvido</span>
+                  <% elsif emprestimo.devolucao_vencida?%>
+                    <span class= "badge bg-danger">Em atraso</span>
                   <% else %>
-                    <span class="badge bg-danger">Emprestado</span>
+                    <span class="badge bg-warning">Emprestado</span>
                   <% end %>
                 </td>
-                <td class="text-center align-middle">
-                  <%= link_to "Ver", emprestimo, class: "btn btn-sm btn-info text-white me-1" %>
-                  <%= link_to "Editar", edit_emprestimo_path(emprestimo), class: "btn btn-sm btn-warning text-white me-1" %>
-                  <%= link_to "Excluir", emprestimo, method: :delete, data: { confirm: "Tem certeza?" }, class: "btn btn-sm btn-danger" %>
+                <td class="text-center pe-4 align-middle">
+                  <div class="d-flex gap-2 justify-content-center">
+                    <%= link_to "Ver", emprestimo, class: "btn btn-sm btn-outline-info flex-fill" %>
+                    <%= link_to "Editar", edit_emprestimo_path(emprestimo), class: "btn btn-sm btn-outline-warning flex-fill" %>
+                    <%= link_to "Remover", emprestimo, data: { turbo_method: :delete, turbo_confirm: "Deseja remover este empréstimo?" }, class: "btn btn-sm btn-outline-danger flex-fill" %>
                 </td>
               </tr>
             <% end %>
@@ -54,4 +62,4 @@
   <div class="d-flex justify-content-center mt-4">
     <%= paginate @emprestimos if @emprestimos.respond_to?(:current_page) %>
   </div>
-</div>>
+</div>

@@ -1,9 +1,9 @@
 <%= form_with(model: livro) do |form| %>
+  <!--Verifica se há erros no formulário-->
   <% if livro.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(livro.errors.count, "error") %> prohibited this livro from being saved:</h2>
-
-      <ul>
+    <div class="alert alert-danger shadow-sm rounded-3 mb-4">
+      <h5 class="fw-bold mb-2">⚠️ O formulário contém erros:</h5>
+      <ul class="mb-0 small">
         <% livro.errors.each do |error| %>
           <li><%= error.full_message %></li>
         <% end %>
@@ -11,37 +11,43 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :titulo, style: "display: block" %>
-    <%= form.text_field :titulo %>
+  <!-- Estiliza e lista os dados do livro -->
+  <div class="row g-3">
+    <div class="col-md-12">
+      <!-- Cria o texto que fica em cima do campo de digitação para o usuário saber o que deve escrever -->
+      <%= form.label :titulo, "Título", class: "form-label fw-bold text-secondary small" %>
+      <!-- Desenha a caixa de texto onde o usuário realmente digita o título do livro -->
+      <%= form.text_field :titulo, class: "form-control shadow-sm", placeholder: "Título do Livro" %>
+    </div>
+
+    <div class="col-md-6">
+      <%= form.label :autor, "Autor", class: "form-label fw-bold text-secondary small" %>
+      <%= form.text_field :autor, class: "form-control shadow-sm", placeholder: "Nome completo do autor" %>
+    </div>
+
+    <div class="col-md-6">
+      <%= form.label :editora, "Editora", class: "form-label fw-bold text-secondary small" %>
+      <%= form.text_field :editora, class: "form-control shadow-sm", placeholder: "Nome da editora" %>
+    </div>
+
+    <div class="col-md-6">
+      <%= form.label :isbn, "ISBN", class: "form-label fw-bold text-secondary small" %>
+      <%= form.text_field :isbn, class: "form-control shadow-sm", placeholder: "Digite os 13 dígitos do ISBN" %>
+    </div>
+
+    <div class="col-md-6">
+      <%= form.label :ano_publicacao, "Ano de publicação", class: "form-label fw-bold text-secondary small" %>
+      <%= form.text_field :ano_publicacao, class: "form-control shadow-sm", placeholder: "Ano de publicação"%>
+    </div>
+
+    <div class="col-md-12">
+      <%= form.label :quantidade_estoque, "Quantidade em estoque", class: "form-label fw-bold text-secondary small" %>
+      <%= form.text_field :quantidade_estoque, class: "form-control shadow-sm", placeholder: "Ex: 5" %>
+    </div>
   </div>
 
-  <div>
-    <%= form.label :autor, style: "display: block" %>
-    <%= form.text_field :autor %>
-  </div>
-
-  <div>
-    <%= form.label :editora, style: "display: block" %>
-    <%= form.text_field :editora %>
-  </div>
-
-  <div>
-    <%= form.label :isbn, style: "display: block" %>
-    <%= form.text_field :isbn %>
-  </div>
-
-  <div>
-    <%= form.label :ano_publicacao, style: "display: block" %>
-    <%= form.number_field :ano_publicacao %>
-  </div>
-
-  <div>
-    <%= form.label :quantidade_estoque, style: "display: block" %>
-    <%= form.number_field :quantidade_estoque %>
-  </div>
-
-  <div>
-    <%= form.submit %>
+  <div class="d-flex gap-2 justify-content-end mt-4 pt-3 border-top">
+    <%= link_to "Voltar", livros_path, class: "btn btn-light border px-4" %>
+    <%= form.submit "Salvar Livro", class: "btn btn-primary px-4 fw-bold shadow-sm" %>
   </div>
 <% end %>

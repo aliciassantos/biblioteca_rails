@@ -9,19 +9,19 @@ class AlunosController < ApplicationController
     respond_to do |format|
       format.html # Carrega a página index.html.erb normal no navegador
       format.json { render json: Aluno.all }
-      
+
       # 2. REQUISITO D): Configura a geração de PDF usando a Gem Prawn
       format.pdf do
         pdf = Prawn::Document.new(page_size: "A4", page_layout: :portrait)
-        
+
         # Título do documento PDF
         pdf.text "SISTEMA BIBLIOLILI&NANA", size: 22, style: :bold, align: :center, color: "003366"
         pdf.text "Relatório Geral de Alunos Cadastrados", size: 13, align: :center, color: "555555"
         pdf.move_down 25
 
         # Monta a estrutura de colunas e dados da tabela do PDF
-        dados_tabela = [ ["ID", "Nome Completo", "Matrícula", "CPF", "Idade"] ]
-        
+        dados_tabela = [ [ "ID", "Nome Completo", "Matrícula", "CPF", "Idade" ] ]
+
         # Puxa todos os alunos do MySQL (sem paginação no PDF para listar todos)
         Aluno.all.each do |aluno|
           dados_tabela << [
@@ -38,7 +38,7 @@ class AlunosController < ApplicationController
           row(0).style(background_color: "212529", text_color: "FFFFFF", font_style: :bold)
           columns(0).width = 40
           columns(4).width = 70
-          self.row_colors = ["FFFFFF", "F8F9FA"] # Efeito zebrado
+          self.row_colors = [ "FFFFFF", "F8F9FA" ] # Efeito zebrado
         end
 
         # Rodapé do relatório

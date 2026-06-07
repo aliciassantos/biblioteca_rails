@@ -25,7 +25,7 @@ class EmprestimosController < ApplicationController
 
     respond_to do |format|
       if @emprestimo.save
-        format.html { redirect_to @emprestimo, notice: "Emprestimo was successfully created." }
+        format.html { redirect_to @emprestimo, notice: "Empréstimo criado com sucesso!" }
         format.json { render :show, status: :created, location: @emprestimo }
       else
         format.html { render :new, status: :unprocessable_content }
@@ -38,7 +38,7 @@ class EmprestimosController < ApplicationController
   def update
     respond_to do |format|
       if @emprestimo.update(emprestimo_params)
-        format.html { redirect_to @emprestimo, notice: "Emprestimo was successfully updated.", status: :see_other }
+        format.html { redirect_to @emprestimo, notice: "Empréstimo atualizado com sucesso!", status: :see_other }
         format.json { render :show, status: :ok, location: @emprestimo }
       else
         format.html { render :edit, status: :unprocessable_content }
@@ -52,7 +52,7 @@ class EmprestimosController < ApplicationController
     @emprestimo.destroy!
 
     respond_to do |format|
-      format.html { redirect_to emprestimos_path, notice: "Emprestimo was successfully destroyed.", status: :see_other }
+      format.html { redirect_to emprestimos_path, notice: "Empréstimo removido com sucesso!", status: :see_other }
       format.json { head :no_content }
     end
   end
@@ -66,5 +66,6 @@ class EmprestimosController < ApplicationController
     # Only allow a list of trusted parameters through.
     def emprestimo_params
       params.expect(emprestimo: [ :aluno_id, :livro_id, :data_emprestimo, :data_devolucao, :status ])
+      params.require(:emprestimo).permit(:data_emprestimo, :data_devolucao, :matricula_aluno, :isbn_livro, :status)
     end
 end

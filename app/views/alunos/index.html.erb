@@ -1,3 +1,5 @@
+<!--index.html.erb é a página de listagem. ela exibe a tabela com todos os alunos cadastrados -->
+<!-- Altera o título na aba do navegador -->
 <% content_for :title, "Alunos - BiblioLili&Nana" %>
 
 <div class="container my-4">
@@ -39,12 +41,11 @@
                 <td><code class="text-secondary"><%= aluno.matricula %></code></td>
                 <td><%= aluno.cpf %></td>
                 <td><%= aluno.email %></td>
-                <td class="text-center pe-4">
-                  <div class="btn-group btn-group-sm shadow-sm">
-                    <%= link_to "Ver", aluno, class: "btn btn-outline-info" %>
-                    <%= link_to "Editar", edit_aluno_path(aluno), class: "btn btn-outline-warning" %>
-                    <%= link_to "Remover", aluno, data: { turbo_method: :delete, turbo_confirm: "Deseja remover este aluno?" }, class: "btn btn-outline-danger" %>
-                  </div>
+                <td class="text-center pe-4 align-middle">
+                  <div class="d-flex gap-2 justify-content-center">
+                    <%= link_to "Ver", aluno, class: "btn btn-sm btn-outline-info flex-fill" %>
+                    <%= link_to "Editar", edit_aluno_path(aluno), class: "btn btn-sm btn-outline-warning flex-fill" %>
+                    <%= link_to "Remover", aluno, data: { turbo_method: :delete, turbo_confirm: "Deseja remover este aluno?" }, class: "btn btn-sm btn-outline-danger flex-fill" %>
                 </td>
               </tr>
             <% end %>
