@@ -1,11 +1,17 @@
-<% content_for :title, "New aluno" %>
+<div class="container my-5" style="max-width: 800px;">
+  <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+    <div class="card-header bg-dark p-4 border-0">
+      <div class="d-flex align-items-center justify-content-between text-white">
+        <div>
+          <h2 class="fw-bold mb-0">Novo Aluno</h2>
+          <p class="text-info small mb-0">Preencha os dados acadêmicos do discente</p>
+        </div>
+        <i class="fa-solid fa-user-plus fs-1 opacity-50"></i>
+      </div>
+    </div>
 
-<h1>New aluno</h1>
-
-<%= render "form", aluno: @aluno %>
-
-<br>
-
-<div>
-  <%= link_to "Back to alunos", alunos_path %>
+    <div class="card-body p-4 p-md-5 bg-white">
+      <%= render "form", aluno: @aluno %>
+    </div>
+  </div>
 </div>

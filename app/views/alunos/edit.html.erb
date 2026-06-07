@@ -1,12 +1,31 @@
-<% content_for :title, "Editing aluno" %>
+<% content_for :title, "Editar Aluno - BiblioLili&Nana" %>
 
-<h1>Editing aluno</h1>
+<div class="container my-5" style="max-width: 800px;">
+  <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+    
+    <div class="card-header bg-dark p-4 border-0">
+      <div class="d-flex align-items-center justify-content-between text-white">
+        <div>
+          <h2 class="fw-bold mb-0">Modificar Cadastro</h2>
+          <p class="text-info small mb-0">Altere as informações necessárias do discente</p>
+        </div>
+        <span class="fs-1 opacity-50">📝</span>
+      </div>
+    </div>
 
-<%= render "form", aluno: @aluno %>
+    <div class="card-body p-4 p-md-5 bg-white">
+      <%= render "form", aluno: @aluno %>
+    </div>
 
-<br>
+    <div class="card-footer bg-light p-3 text-center border-0 d-flex justify-content-center gap-3">
+      <%= link_to @aluno, class: "text-decoration-none text-info d-inline-flex align-items-center gap-1 fw-bold small" do %>
+        🔍 Visualizar Perfil
+      <% end %>
+      <span class="text-muted">|</span>
+      <%= link_to alunos_path, class: "text-decoration-none text-secondary d-inline-flex align-items-center gap-1 fw-bold small" do %>
+        📁 Voltar para Listagem
+      <% end %>
+    </div>
 
-<div>
-  <%= link_to "Show this aluno", @aluno %> |
-  <%= link_to "Back to alunos", alunos_path %>
+  </div>
 </div>

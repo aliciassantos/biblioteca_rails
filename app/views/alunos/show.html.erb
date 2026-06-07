@@ -1,10 +1,74 @@
-<p style="color: green"><%= notice %></p>
+<% content_for :title, "Perfil do Aluno - BiblioLili&Nana" %>
 
-<%= render @aluno %>
+<div class="container my-5" style="max-width: 800px;">
+  <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
+    
+    <div class="card-header bg-dark p-4 border-0">
+      <div class="d-flex align-items-center justify-content-between text-white">
+        <div>
+          <h2 class="fw-bold mb-0">Ficha do Aluno</h2>
+          <p class="text-info small mb-0">Dados cadastrais registrados no MySQL</p>
+        </div>
+        <span class="fs-1 opacity-50">👤</span>
+      </div>
+    </div>
 
-<div>
-  <%= link_to "Edit this aluno", edit_aluno_path(@aluno) %> |
-  <%= link_to "Back to alunos", alunos_path %>
+    <div class="card-body p-4 p-md-5 bg-white">
+      <div class="row g-4">
+        
+        <div class="col-md-12 border-bottom pb-2">
+          <span class="text-secondary small d-block fw-bold text-uppercase">Nome Completo</span>
+          <span class="fs-4 fw-bold text-dark"><%= @aluno.nome_completo %></span>
+        </div>
 
-  <%= button_to "Destroy this aluno", @aluno, method: :delete %>
+        <div class="col-md-6 border-bottom pb-2">
+          <span class="text-secondary small d-block fw-bold text-uppercase">Matrícula Acadêmica</span>
+          <code class="fs-5 text-primary fw-bold"><%= @aluno.matricula %></code>
+        </div>
+
+        <div class="col-md-6 border-bottom pb-2">
+          <span class="text-secondary small d-block fw-bold text-uppercase">CPF</span>
+          <span class="fs-5 text-dark fw-semibold"><%= @aluno.cpf %></span>
+        </div>
+
+        <div class="col-md-6 border-bottom pb-2">
+          <span class="text-secondary small d-block fw-bold text-uppercase">E-mail Institucional</span>
+          <span class="fs-5 text-dark"><%= @aluno.email %></span>
+        </div>
+
+        <div class="col-md-6 border-bottom pb-2">
+          <span class="text-secondary small d-block fw-bold text-uppercase">Telefone / Contato</span>
+          <span class="fs-5 text-dark"><%= @aluno.telefone %></span>
+        </div>
+
+        <div class="col-md-6 border-bottom pb-2">
+          <span class="text-secondary small d-block fw-bold text-uppercase">Data de Nascimento</span>
+          <span class="fs-5 text-dark"><%= @aluno.data_nascimento.strftime('%d/%m/%Y') if @aluno.data_nascimento %></span>
+        </div>
+
+        <div class="col-md-6 border-bottom pb-2">
+          <span class="text-secondary small d-block fw-bold text-uppercase">Idade Atual (Calculada)</span>
+          <span class="badge bg-info fs-6 text-dark fw-bold px-3"><%= @aluno.calcular_idade %> anos</span>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="card-footer bg-light p-4 border-0 d-flex justify-content-between align-items-center">
+      <%= link_to alunos_path, class: "btn btn-outline-secondary px-4 fw-semibold rounded-3" do %>
+        📁 Voltar para Listagem
+      <% end %>
+
+      <div class="d-flex gap-2">
+        <%= link_to edit_aluno_path(@aluno), class: "btn btn-warning text-white px-4 fw-bold rounded-3 shadow-sm" do %>
+          📝 Editar Dados
+        <% end %>
+
+        <%= button_to @aluno, method: :delete, data: { turbo_confirm: "Tem certeza que deseja excluir o cadastro deste aluno permanentemente?" }, class: "btn btn-danger px-4 fw-bold rounded-3 shadow-sm" do %>
+          ❌ Remover Aluno
+        <% end %>
+      </div>
+    </div>
+
+  </div>
 </div>

@@ -1,16 +1,65 @@
-<p style="color: green"><%= notice %></p>
+<% content_for :title, "Alunos - BiblioLili&Nana" %>
 
-<% content_for :title, "Alunos" %>
+<div class="container my-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h1 class="fw-bold text-dark mb-1">Consulta de Alunos</h1>
+      <p class="text-muted small mb-0">Gerenciamento de discentes no sistema BiblioLili&Nana.</p>
+    </div>
+    <div class="d-flex gap-2">
+      <% # Requisito d) PDF com Prawn %>
+      <%= link_to alunos_path(format: :pdf), class: "btn btn-danger shadow-sm d-inline-flex align-items-center gap-2 fw-bold" do %>
+        📊 Gerar PDF (Prawn)
+      <% end %>
+      <%= link_to new_aluno_path, class: "btn btn-primary shadow-sm d-inline-flex align-items-center gap-2 fw-bold" do %>
+        ➕ Novo Aluno
+      <% end %>
+    </div>
+  </div>
 
-<h1>Alunos</h1>
+  <div class="card shadow-sm border-0 rounded-3 overflow-hidden">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-dark">
+          <tr>
+            <th scope="col" class="ps-4">ID</th>
+            <th scope="col">Nome Completo</th>
+            <th scope="col">Matrícula</th>
+            <th scope="col">CPF</th>
+            <th scope="col">E-mail</th>
+            <th scope="col" class="text-center pe-4">Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if @alunos.any? %>
+            <% @alunos.each do |aluno| %>
+              <tr>
+                <td class="ps-4 text-secondary fw-semibold"><%= aluno.id %></td>
+                <td><span class="fw-bold text-dark"><%= aluno.nome_completo %></span></td>
+                <td><code class="text-secondary"><%= aluno.matricula %></code></td>
+                <td><%= aluno.cpf %></td>
+                <td><%= aluno.email %></td>
+                <td class="text-center pe-4">
+                  <div class="btn-group btn-group-sm shadow-sm">
+                    <%= link_to "Ver", aluno, class: "btn btn-outline-info" %>
+                    <%= link_to "Editar", edit_aluno_path(aluno), class: "btn btn-outline-warning" %>
+                    <%= link_to "Remover", aluno, data: { turbo_method: :delete, turbo_confirm: "Deseja remover este aluno?" }, class: "btn btn-outline-danger" %>
+                  </div>
+                </td>
+              </tr>
+            <% end %>
+          <% else %>
+            <tr>
+              <td colspan="6" class="text-center py-5 text-muted">Nenhum aluno cadastrado no sistema.</td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
-<div id="alunos">
-  <% @alunos.each do |aluno| %>
-    <%= render aluno %>
-    <p>
-      <%= link_to "Show this aluno", aluno %>
-    </p>
-  <% end %>
+  <% # Requisito a) Paginação do Kaminari %>
+  <div class="d-flex justify-content-center mt-4">
+    <%= paginate @alunos if @alunos.respond_to?(:current_page) %>
+  </div>
 </div>
-
-<%= link_to "New aluno", new_aluno_path %>

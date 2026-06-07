@@ -1,5 +1,71 @@
-<h1>Home#index</h1>
-<p>Find me in app/views/home/index.html.erb</p>
+<div class="container py-5">
+  <div class="p-5 mb-5 bg-white rounded-4 shadow-sm border border-light text-center">
+    <div class="py-3">
+      <h1 class="display-5 fw-bold text-dark mb-3">Sistema BiblioLili&Nana</h1>
+      <p class="col-md-10 mx-auto fs-5 text-muted mb-4">
+        Bem-vindo ao sistema acadêmico de gerenciamento da biblioteca. Aqui você pode controlar o acervo de livros, registrar novos discentes e monitorar o fluxo de empréstimos em tempo real.
+      </p>
+      <hr class="my-4 mx-auto w-25 border-secondary border-2">
+      
+      <div class="mt-4">
+        <p class="fw-bold text-secondary mb-2">📥 Relatório dos Alunos:</p>
+        <%= link_to home_index_path(format: :csv), class: "btn btn-success btn-lg px-5 py-3 shadow-sm fw-bold d-inline-flex align-items-center gap-2" do %>
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-file-earmark-spreadsheet" viewBox="0 0 16 16">
+            <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+            <path d="M3 4h10v1H3zm0 2h10v1H3zm0 2h10v1H3zm0 2h10v1H3zm0 2h10v1H3z"/>
+          </svg>
+          Baixar Lista de Alunos (CSV)
+        <% end %>
+      </div>
+    </div>
+  </div>
 
-<!--BOTÃO DE DOWNLOAD DO CSV COM A LISTA DE ALUNOS-->
-<%= link_to "Baixar Lista de Alunos (CSV)", home_index_path(format: :csv), class: "btn btn-success" %>
+  <div class="row g-4 text-center">
+    
+    <div class="col-md-4">
+      <div class="card h-100 shadow-sm border-0 rounded-4 transition-card">
+        <div class="card-body p-4 d-flex flex-column justify-content-between">
+          <div>
+            <div class="bg-primary bg-opacity-10 text-primary rounded-circle p-3 d-inline-block mb-3">
+              <h3 class="mb-0 fw-bold">👥</h3>
+            </div>
+            <h4 class="card-title fw-bold text-dark">Alunos</h4>
+            <p class="card-text text-muted small">Gerencie o cadastro de discentes da UESPI, matrículas, consultas e exportação de relatórios em formato PDF.</p>
+          </div>
+          <%= link_to "Acessar Alunos", alunos_path, class: "btn btn-primary w-100 py-2 mt-3 fw-bold rounded-3 shadow-sm" %>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card h-100 shadow-sm border-0 rounded-4 transition-card">
+        <div class="card-body p-4 d-flex flex-column justify-content-between">
+          <div>
+            <div class="bg-info bg-opacity-10 text-info rounded-circle p-3 d-inline-block mb-3">
+              <h3 class="mb-0 fw-bold">📚</h3>
+            </div>
+            <h4 class="card-title fw-bold text-dark">Livros</h4>
+            <p class="card-text text-muted small">Controle o acervo técnico e literário. Monitore o código ISBN, autores, editoras e a quantidade disponível no estoque.</p>
+          </div>
+          <%= link_to "Acessar Livros", livros_path, class: "btn btn-info text-white w-100 py-2 mt-3 fw-bold rounded-3 shadow-sm" %>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card h-100 shadow-sm border-0 rounded-4 transition-card">
+        <div class="card-body p-4 d-flex flex-column justify-content-between">
+          <div>
+            <div class="bg-warning bg-opacity-10 text-warning rounded-circle p-3 d-inline-block mb-3">
+              <h3 class="mb-0 fw-bold">🔄</h3>
+            </div>
+            <h4 class="card-title fw-bold text-dark">Empréstimos</h4>
+            <p class="card-text text-muted small">Associe os alunos aos livros retirados. Controle as datas de devolução previstas e identifique devoluções em atraso.</p>
+          </div>
+          <%= link_to "Acessar Empréstimos", "/emprestimos", class: "btn btn-warning text-white w-100 py-2 mt-3 fw-bold rounded-3 shadow-sm" %>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

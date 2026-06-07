@@ -5,7 +5,14 @@ class Aluno < ApplicationRecord
     # Validações
     validates :nome_completo, :matricula, :cpf, :data_nascimento, presence: true
     validates :matricula, :cpf, uniqueness: true
+    
+    # Expressão Regular para validar o formato padrão de e-mails (exemplo@dominio.com)
+    VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
 
+    # Validação do E-mail: obrigatório, único e precisa seguir o formato correto
+    validates :email, presence: true, 
+                        uniqueness: true, 
+                        format: { with: VALID_EMAIL_REGEX, message: "não é um e-mail válido" }
     # Calcula a idade do aluno para salvar em CSV
     def calcular_idade
             idade = Date.today.year - data_nascimento.year

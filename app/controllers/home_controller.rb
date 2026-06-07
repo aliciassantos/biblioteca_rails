@@ -19,8 +19,8 @@ class HomeController < ApplicationController
         end
 
         # Envia o arquivo CSV para download
-        send_data csv_data, filename: "alunos.csv", type: "text/csv"
-      end
+        # "\xEF\xBB\xBF" garante que o Excel no Windows abra o arquivo sem Bagunçar os Acentos (BOM UTF-8)
+        send_data "\xEF\xBB\xBF" + csv_data, filename: "alunos_completo.csv", type: "text/csv; charset=utf-8"      end
     end
   end
 end

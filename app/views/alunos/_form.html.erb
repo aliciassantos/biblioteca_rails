@@ -1,9 +1,9 @@
 <%= form_with(model: aluno) do |form| %>
+  
   <% if aluno.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(aluno.errors.count, "error") %> prohibited this aluno from being saved:</h2>
-
-      <ul>
+    <div class="alert alert-danger shadow-sm rounded-3 mb-4">
+      <h5 class="fw-bold mb-2">⚠️ O formulário contém erros:</h5>
+      <ul class="mb-0 small">
         <% aluno.errors.each do |error| %>
           <li><%= error.full_message %></li>
         <% end %>
@@ -11,37 +11,68 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :nome_completo, style: "display: block" %>
-    <%= form.text_field :nome_completo %>
+  <div class="row g-3">
+    <div class="col-md-12">
+      <%= form.label :nome_completo, "Nome Completo", class: "form-label fw-bold text-secondary small" %>
+      <%= form.text_field :nome_completo, class: "form-control shadow-sm", placeholder: "Nome do Aluno" %>
+    </div>
+
+    <div class="col-md-6">
+      <%= form.label :cpf, "CPF", class: "form-label fw-bold text-secondary small" %>
+      <%= form.text_field :cpf, id: "cpf-input", class: "form-control shadow-sm", placeholder: "000.000.000-00", maxlength: 14 %>
+    </div>
+
+    <div class="col-md-6">
+      <%= form.label :matricula, "Matrícula", class: "form-label fw-bold text-secondary small" %>
+      <%= form.text_field :matricula, class: "form-control shadow-sm", placeholder: "Ex: 202611234" %>
+    </div>
+
+    <div class="col-md-6">
+      <%= form.label :data_nascimento, "Data de Nascimento", class: "form-label fw-bold text-secondary small" %>
+      <%= form.date_field :data_nascimento, class: "form-control shadow-sm" %>
+    </div>
+
+    <div class="col-md-6">
+      <%= form.label :telefone, "Telefone", class: "form-label fw-bold text-secondary small" %>
+      <%= form.text_field :telefone, id: "telefone-input", class: "form-control shadow-sm", placeholder: "(86) 99999-0000", maxlength: 15 %>
+    </div>
+
+    <div class="col-md-12">
+      <%= form.label :email, "E-mail", class: "form-label fw-bold text-secondary small" %>
+      <%= form.email_field :email, class: "form-control shadow-sm", placeholder: "exemplo@uespi.br" %>
+    </div>
   </div>
 
-  <div>
-    <%= form.label :cpf, style: "display: block" %>
-    <%= form.text_field :cpf %>
-  </div>
-
-  <div>
-    <%= form.label :matricula, style: "display: block" %>
-    <%= form.text_field :matricula %>
-  </div>
-
-  <div>
-    <%= form.label :data_nascimento, style: "display: block" %>
-    <%= form.date_field :data_nascimento %>
-  </div>
-
-  <div>
-    <%= form.label :email, style: "display: block" %>
-    <%= form.text_field :email %>
-  </div>
-
-  <div>
-    <%= form.label :telefone, style: "display: block" %>
-    <%= form.text_field :telefone %>
-  </div>
-
-  <div>
-    <%= form.submit %>
+  <div class="d-flex gap-2 justify-content-end mt-4 pt-3 border-top">
+    <%= link_to "Voltar", alunos_path, class: "btn btn-light border px-4" %>
+    <%= form.submit "Salvar Aluno", class: "btn btn-primary px-4 fw-bold shadow-sm" %>
   </div>
 <% end %>
+
+<script>
+  document.addEventListener("turbo:load", () => {
+    const cpfInput = document.getElementById("cpf-input");
+    const telefoneInput = document.getElementById("telefone-input");
+
+    // Máscara de CPF (000.000.000-00)
+    if (cpfInput) {
+      cpfInput.addEventListener("input", (e) => {
+        let value = e.target.value.replace(/\D/g, ""); // Remove tudo que não é número
+        value = value.replace(/(\d{3})(\d)/, "$1.$2");
+        value = value.replace(/(\d{3})(\d)/, "$1.$2");
+        value = value.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+        e.target.value = value;
+      });
+    }
+
+    // Máscara de Telefone ((00) 00000-0000)
+    if (telefoneInput) {
+      telefoneInput.addEventListener("input", (e) => {
+        let value = e.target.value.replace(/\D/g, ""); // Remove tudo que não é número
+        value = value.replace(/^(\d{2})(\d)/g, "($1) $2");
+        value = value.replace(/(\d{5})(\d)/, "$1-$2");
+        e.target.value = value;
+      });
+    }
+  });
+</script>
