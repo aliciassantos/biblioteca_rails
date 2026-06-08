@@ -3,7 +3,7 @@
   <div class="d-flex justify-content-between align-items-center mb-4">
     <div> 
       <h1 class="text-primary font-weight-bold">Controle de Empréstimos</h1>
-      <p class="text-muted small">Gerenciamento de discentes no sistema BiblioLili&Nana.</p>
+      <p class="text-muted small">Gerenciamento de empréstimos no sistema BiblioLili&Nana.</p>
     </div> 
     <%= link_to "➕ Novo Empréstimo", new_emprestimo_path, class: "btn btn-primary text-white px-4 shadow-sm" %>
   </div>
@@ -36,13 +36,13 @@
                   <% elsif emprestimo.devolucao_vencida?%>
                     <span class= "badge bg-danger">Em atraso</span>
                   <% else %>
-                    <span class="badge bg-warning">Emprestado</span>
+                    <span class="badge bg-primary">Emprestado</span>
                   <% end %>
                 </td>
                 <td class="text-center pe-4 align-middle">
                   <div class="d-flex gap-2 justify-content-center">
                     <%= link_to "Ver", emprestimo, class: "btn btn-sm btn-outline-info flex-fill" %>
-                    <%= link_to "Editar", edit_emprestimo_path(emprestimo), class: "btn btn-sm btn-outline-warning flex-fill" %>
+                    <%= link_to "Atualizar", edit_emprestimo_path(emprestimo), class: "btn btn-sm btn-outline-warning flex-fill" %>
                     <%= link_to "Remover", emprestimo, data: { turbo_method: :delete, turbo_confirm: "Deseja remover este empréstimo?" }, class: "btn btn-sm btn-outline-danger flex-fill" %>
                 </td>
               </tr>

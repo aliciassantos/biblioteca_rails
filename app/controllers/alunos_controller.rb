@@ -3,14 +3,14 @@ class AlunosController < ApplicationController
 
   # GET /alunos or /alunos.json
   def index
-    # 1. Aplica a paginação do Kaminari (5 alunos por página) para o formato HTML
+    # Aplica a paginação do Kaminari (5 alunos por página) para o formato HTML
     @alunos = Aluno.all.page(params[:page]).per(5)
 
     respond_to do |format|
       format.html # Carrega a página index.html.erb normal no navegador
       format.json { render json: Aluno.all }
 
-      # 2. REQUISITO D): Configura a geração de PDF usando a Gem Prawn
+      # REQUISITO D): Configura a geração de PDF usando a Gem Prawn
       format.pdf do
         pdf = Prawn::Document.new(page_size: "A4", page_layout: :portrait)
 

@@ -28,7 +28,13 @@
 
         <div class="col-md-6 border-bottom pb-2">
           <span class="text-secondary small d-block fw-bold text-uppercase">Status do empréstimo</span>
-          <code class="fs-5 text-primary fw-bold"><%= @emprestimo.status %></code>
+          <% if @emprestimo.status == "Emprestado"%>
+            <code class="fs-5 text-primary fw-bold"><%= @emprestimo.status %></code>
+          <%elsif @emprestimo.status == "Em atraso"%>
+            <code class="fs-5 text-danger fw-bold"><%= @emprestimo.status %></code>
+          <% else %>
+            <code class="fs-5 text-success fw-bold"><%= @emprestimo.status %></code>
+          <% end %>
         </div>
 
         <div class="col-md-6 border-bottom pb-2">

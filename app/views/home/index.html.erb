@@ -7,16 +7,29 @@
       </p>
       <hr class="my-4 mx-auto w-25 border-secondary border-2">
       
-      <div class="mt-4">
-        <p class="fw-bold text-secondary mb-2">📥 Relatório dos Alunos:</p>
-        <%= link_to home_index_path(format: :csv), class: "btn btn-success btn-lg px-5 py-3 shadow-sm fw-bold d-inline-flex align-items-center gap-2" do %>
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-file-earmark-spreadsheet" viewBox="0 0 16 16">
-            <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
-            <path d="M3 4h10v1H3zm0 2h10v1H3zm0 2h10v1H3zm0 2h10v1H3zm0 2h10v1H3z"/>
-          </svg>
-          Baixar Lista de Alunos (CSV)
-        <% end %>
-      </div>
+      <div class= "border border-secondary border-4 rounded p-4 mb-4"> 
+        <div class="border-secondary rounded">
+          <p class="fw-bold h3 text-secondary mb-2">📥 Relatório dos Alunos:</p>
+          <%= link_to home_index_path(format: :csv, tipo: "alunos"), class: "btn btn-success btn-lg px-5 py-3 shadow-sm fw-bold d-inline-flex align-items-center gap-2" do %>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-file-earmark-spreadsheet" viewBox="0 0 16 16">
+              <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+              <path d="M3 4h10v1H3zm0 2h10v1H3zm0 2h10v1H3zm0 2h10v1H3zm0 2h10v1H3z"/>
+            </svg>
+            Baixar Lista de Alunos (CSV)
+          <% end %>
+        </div>
+
+        <div class="mt-4">
+          <p class="fw-bold h3 text-secondary mb-2">📥 Registros dos Livros:</p>
+          <%= link_to home_index_path(format: :csv), class: "btn btn-primary btn-lg px-5 py-3 shadow-sm fw-bold d-inline-flex align-items-center gap-2" do %>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-file-earmark-spreadsheet" viewBox="0 0 16 16">
+              <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+              <path d="M3 4h10v1H3zm0 2h10v1H3zm0 2h10v1H3zm0 2h10v1H3zm0 2h10v1H3z"/>
+            </svg>
+            Baixar Lista de Livros (CSV)
+          <% end %>
+        </div>
+      </div>     
     </div>
   </div>
 
