@@ -2,6 +2,9 @@ require "csv"
 
 # CONTROLLER DA PÁGINA INICIAL DO SITE
 class HomeController < ApplicationController
+  # 1. Trava do Devise: Ninguém acessa NADA nesta página sem fazer login
+  before_action :authenticate_user!
+
   def index
     # Pega todos os alunos para gerar o CSV
     @alunos = Aluno.all
