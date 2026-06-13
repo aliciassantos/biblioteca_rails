@@ -1,9 +1,17 @@
 Rails.application.routes.draw do
   devise_for :users
   get "home/index"
-  resources :emprestimos
   resources :livros
   resources :alunos
+  # Rota customizada para lidar com chaves compostas
+  resources :emprestimos, param: :aluno_id, except: [:show, :edit, :update, :destroy]
+  
+  scope :emprestimos do
+    get '/:aluno_id/:livro_id', to: 'emprestimos#show', as: :emprestimo
+    get '/:aluno_id/:livro_id/edit', to: 'emprestimos#edit', as: :edit_emprestimo
+    patch '/:aluno_id/:livro_id', to: 'emprestimos#update'
+    delete '/:aluno_id/:livro_id', to: 'emprestimos#destroy'
+  end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

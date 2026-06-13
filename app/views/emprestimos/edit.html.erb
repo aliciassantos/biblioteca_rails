@@ -9,7 +9,7 @@
           <h2 class="fw-bold mb-0">Empréstimo</h2>
           <p class="text-info small mb-0">Dados cadastrais registrados no MySQL</p>
         </div>
-        <span class="fs-1 opacity-50">👤</span>
+        <span class="fs-1 opacity-50">📖</span>
       </div>
     </div>
 
@@ -18,12 +18,12 @@
         
         <div class="col-md-12 border-bottom pb-2">
           <span class="text-secondary small d-block fw-bold text-uppercase">Nome Completo do Aluno</span>
-          <span class="fs-4 fw-bold text-dark"><%= @emprestimo.aluno.nome_completo %></span>
+          <span class="fs-4 fw-bold text-dark"><%= @emprestimo.aluno&.nome_completo %></span>
         </div>
 
         <div class="col-md-6 border-bottom pb-2">
           <span class="text-secondary small d-block fw-bold text-uppercase">Título do Livro</span>
-          <code class="fs-5 text-primary fw-bold"><%= @emprestimo.livro.titulo %></code>
+          <code class="fs-5 text-primary fw-bold"><%= @emprestimo.livro&.titulo %></code>
         </div>
 
         <div class="col-md-6 border-bottom pb-2">
@@ -45,12 +45,15 @@
 
     <div class="card-footer bg-light p-4 border-0 d-flex justify-content-between align-items-center">
       
-      <% if @emprestimo.status == "Emprestado" || @emprestimo.status == "Em Atraso" %>
+      <%# CORREÇÃO: Passando aluno_id e livro_id para compor a rota %>
+      <% if ["Emprestado", "Em atraso"].include?(@emprestimo.status) %>
         <%= button_to "Confirmar Devolução",
-          emprestimo_path(@emprestimo, emprestimo: {status: "Devolvido"}),
+          emprestimo_path(@emprestimo.aluno_id, @emprestimo.livro_id, emprestimo: { status: "Devolvido" }),
           method: :patch,
-          class: "btn btn-success px-4 fw-bold shadow-sm  rounded-3",
+          class: "btn btn-success px-4 fw-bold shadow-sm rounded-3",
           data: { turbo: false, turbo_confirm: "Confirmar a Devolução deste livro?" } %>
+      <% else %>
+        <span class="text-muted fw-bold">Livro já devolvido.</span>
       <% end %>
 
       <%= link_to emprestimos_path, class: "btn btn-outline-secondary px-4 fw-semibold rounded-3" do %>

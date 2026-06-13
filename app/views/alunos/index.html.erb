@@ -9,12 +9,43 @@
       <p class="text-muted small mb-0">Gerenciamento de discentes no sistema BiblioLili&Nana.</p>
     </div>
     <div class="d-flex gap-2">
+      <%= link_to root_path, class: "btn btn-outline-secondary shadow-sm d-inline-flex align-items-center gap-2 fw-bold" do %>
+        🏠 Voltar ao Menu
+      <% end %>
+
       <% # Requisito d) PDF com Prawn %>
       <%= link_to alunos_path(format: :pdf), class: "btn btn-danger shadow-sm d-inline-flex align-items-center gap-2 fw-bold" do %>
         📊 Gerar PDF (Prawn)
       <% end %>
+      
       <%= link_to new_aluno_path, class: "btn btn-primary shadow-sm d-inline-flex align-items-center gap-2 fw-bold" do %>
         ➕ Novo Aluno
+      <% end %>
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col-md-6 col-lg-5">
+      <%= form_with url: alunos_path, method: :get, local: true do |f| %>
+        <div class="input-group shadow-sm rounded-3 overflow-hidden">
+          <span class="input-group-text bg-light border-end-0 text-muted">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+              <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+            </svg>
+          </span>
+          
+          <%= f.text_field :search, 
+                           value: params[:search], 
+                           placeholder: "Buscar por ID, nome, CPF ou e-mail", 
+                           class: "form-control bg-light border-start-0 ps-1",
+                           autocomplete: "off" %>
+          
+          <%= f.submit "Pesquisar", class: "btn btn-dark fw-bold px-3" %>
+          
+          <% if params[:search].present? %>
+            <%= link_to "Limpar", alunos_path, class: "btn btn-outline-secondary px-3 d-flex align-items-center" %>
+          <% end %>
+        </div>
       <% end %>
     </div>
   </div>
@@ -26,7 +57,6 @@
           <tr>
             <th scope="col" class="ps-4">ID</th>
             <th scope="col">Nome Completo</th>
-            <th scope="col">Matrícula</th>
             <th scope="col">CPF</th>
             <th scope="col">E-mail</th>
             <th scope="col" class="text-center pe-4">Ações</th>
@@ -38,7 +68,6 @@
               <tr>
                 <td class="ps-4 text-secondary fw-semibold"><%= aluno.id %></td>
                 <td><span class="fw-bold text-dark"><%= aluno.nome_completo %></span></td>
-                <td><code class="text-secondary"><%= aluno.matricula %></code></td>
                 <td><%= aluno.cpf %></td>
                 <td><%= aluno.email %></td>
                 <td class="text-center pe-4 align-middle">
@@ -46,12 +75,13 @@
                     <%= link_to "Ver", aluno, class: "btn btn-sm btn-outline-info flex-fill" %>
                     <%= link_to "Editar", edit_aluno_path(aluno), class: "btn btn-sm btn-outline-warning flex-fill" %>
                     <%= link_to "Remover", aluno, data: { turbo_method: :delete, turbo_confirm: "Deseja remover este aluno?" }, class: "btn btn-sm btn-outline-danger flex-fill" %>
+                  </div> 
                 </td>
               </tr>
             <% end %>
           <% else %>
             <tr>
-              <td colspan="6" class="text-center py-5 text-muted">Nenhum aluno cadastrado no sistema.</td>
+              <td colspan="5" class="text-center py-5 text-muted">Nenhum aluno encontrado.</td>
             </tr>
           <% end %>
         </tbody>

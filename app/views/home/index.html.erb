@@ -29,6 +29,17 @@
             Baixar Lista de Livros (CSV)
           <% end %>
         </div>
+
+        <div class="mt-4">
+          <p class="fw-bold h3 text-secondary mb-2">📥 Registros de Empréstimos:</p>          
+          <%= link_to home_index_path(format: :csv, tipo: "emprestimos"), class: "btn btn-warning btn-lg px-5 py-3 shadow-sm fw-bold d-inline-flex align-items-center gap-2 text-white" do %>
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-file-earmark-spreadsheet" viewBox="0 0 16 16">
+              <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z"/>
+              <path d="M3 4h10v1H3zm0 2h10v1H3zm0 2h10v1H3zm0 2h10v1H3zm0 2h10v1H3z"/>
+            </svg>
+            Baixar Lista de Empréstimos (CSV)
+          <% end %>
+        </div>
       </div>     
     </div>
   </div>
@@ -43,7 +54,7 @@
               <h3 class="mb-0 fw-bold">👥</h3>
             </div>
             <h4 class="card-title fw-bold text-dark">Alunos</h4>
-            <p class="card-text text-muted small">Gerencie o cadastro de discentes da UESPI, matrículas, consultas e exportação de relatórios em formato PDF.</p>
+            <p class="card-text text-muted small">Gerencie o cadastro de discentes, consultas e exportação de relatórios em formato PDF.</p>
           </div>
           <%= link_to "Acessar Alunos", alunos_path, class: "btn btn-primary w-100 py-2 mt-3 fw-bold rounded-3 shadow-sm" %>
         </div>

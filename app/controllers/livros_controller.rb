@@ -3,8 +3,8 @@ class LivrosController < ApplicationController
 
   # GET /livros or /livros.json
   def index
-    # Aplica a paginação do Kaminari (5 livros por página) para o formato HTML
-    @livros = Livro.all.page(params[:page]).per(5)
+    # Aplica o método de busca multimoldura e depois a paginação do Kaminari (5 por página)
+    @livros = Livro.search(params[:search]).page(params[:page]).per(5)
 
     respond_to do |format|
       format.html # Carrega a página index.html.erb normal no navegador
@@ -22,23 +22,25 @@ class LivrosController < ApplicationController
         # Monta a estrutura de colunas e dados da tabela do PDF
         dados_tabela = [ [ "ID", "Título da Obra", "Editora", "ISBN", "Ano de Publicação", "Quantidade em Estoque" ] ]
 
-        # Puxa todos os alunos do MySQL (sem paginação no PDF para listar todos)
-        Livro.all.each do |livro|
+        # Puxa os livros filtrados pela busca atual (ou todos se não houver busca) para o PDF
+        Livro.search(params[:search]).each do |livro|
           dados_tabela << [
             livro.id.to_s,
             livro.titulo,
             livro.editora,
             livro.isbn,
-            livro.ano_publicacao,
-            livro.quantidade_estoque
+            livro.ano_publicacao.to_s,
+            livro.quantidade_estoque.to_s
           ]
         end
 
         # Estiliza a tabela dentro do PDF
         pdf.table(dados_tabela, header: true, width: 520) do
           row(0).style(background_color: "212529", text_color: "FFFFFF", font_style: :bold)
-          columns(0).width = 40
-          columns(4).width = 70
+          columns(0).width = 35 # Largura do ID
+          columns(3).width = 90 # Largura do ISBN
+          columns(4).width = 75 # Largura do Ano de Pub.
+          columns(5).width = 75 # Largura da Qtd. Estoque
           self.row_colors = [ "FFFFFF", "F8F9FA" ] # Efeito zebrado
         end
 
@@ -70,7 +72,7 @@ class LivrosController < ApplicationController
     @livro = Livro.new(livro_params)
 
     respond_to do |format|
-      if @livro.save
+      if @livro.save 
         format.html { redirect_to @livro, notice: "Livro cadastrado com sucesso." }
         format.json { render :show, status: :created, location: @livro }
       else
@@ -109,7 +111,7 @@ class LivrosController < ApplicationController
       @livro = Livro.find(params.expect(:id))
     end
 
-    # Only allow a list of trusted parameters through.
+    # Somente parâmetros permitidos através do Strong Parameters
     def livro_params
       params.expect(livro: [ :titulo, :autor, :editora, :isbn, :ano_publicacao, :quantidade_estoque ])
     end

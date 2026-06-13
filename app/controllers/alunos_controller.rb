@@ -1,17 +1,16 @@
 class AlunosController < ApplicationController
-
   before_action :set_aluno, only: %i[ show edit update destroy ]
 
   # GET /alunos or /alunos.json
   def index
-    # Aplica a paginação do Kaminari (5 alunos por página) para o formato HTML
-    @alunos = Aluno.all.page(params[:page]).per(5)
+    # Integra a busca por contencimento e depois aplica a paginação do Kaminari
+    @alunos = Aluno.search(params[:search]).page(params[:page]).per(5)
 
     respond_to do |format|
-      format.html # Carrega a página index.html.erb normal no navegador
+      format.html # Carrega a página index.html.erb com a barra de pesquisa compacta
       format.json { render json: Aluno.all }
 
-      # REQUISITO D): Configura a geração de PDF usando a Gem Prawn
+      # REQUISITO D): Configura a geração de PDF usando a Gem Prawn (Sem Matrícula)
       format.pdf do
         pdf = Prawn::Document.new(page_size: "A4", page_layout: :portrait)
 
@@ -20,15 +19,14 @@ class AlunosController < ApplicationController
         pdf.text "Relatório Geral de Alunos Cadastrados", size: 13, align: :center, color: "555555"
         pdf.move_down 25
 
-        # Monta a estrutura de colunas e dados da tabela do PDF
-        dados_tabela = [ [ "ID", "Nome Completo", "Matrícula", "CPF", "Idade" ] ]
+        # Monta a estrutura de colunas e dados da tabela do PDF (Removido "Matrícula")
+        dados_tabela = [ [ "ID", "Nome Completo", "CPF", "Idade" ] ]
 
-        # Puxa todos os alunos do MySQL (sem paginação no PDF para listar todos)
-        Aluno.all.each do |aluno|
+        # Puxa os alunos baseando-se na pesquisa atual 
+        Aluno.search(params[:search]).each do |aluno|
           dados_tabela << [
             aluno.id.to_s,
             aluno.nome_completo,
-            aluno.matricula,
             aluno.cpf,
             "#{aluno.calcular_idade} anos"
           ]
@@ -37,8 +35,9 @@ class AlunosController < ApplicationController
         # Estiliza a tabela dentro do PDF
         pdf.table(dados_tabela, header: true, width: 520) do
           row(0).style(background_color: "212529", text_color: "FFFFFF", font_style: :bold)
-          columns(0).width = 40
-          columns(4).width = 70
+          columns(0).width = 50   # Largura para o ID
+          columns(2).width = 110  # Largura para o CPF
+          columns(3).width = 80   # Largura para a Idade
           self.row_colors = [ "FFFFFF", "F8F9FA" ] # Efeito zebrado
         end
 
@@ -106,11 +105,11 @@ class AlunosController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_aluno
-      @aluno = Aluno.find(params.expect(:id))
+      @aluno = Aluno.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
+    # Filtro de segurança (Strong Parameters) - Removido completamente o atributo :matricula
     def aluno_params
-      params.expect(aluno: [ :nome_completo, :cpf, :matricula, :data_nascimento, :email, :telefone ])
+      params.require(:aluno).permit(:nome_completo, :cpf, :data_nascimento, :email, :telefone)
     end
 end

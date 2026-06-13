@@ -2,12 +2,15 @@ class Emprestimo < ApplicationRecord
   belongs_to :aluno, optional: true
   belongs_to :livro, optional: true
 
-  # Permissão para receber os dados virtuais do formulário
-  attr_accessor :matricula_aluno, :isbn_livro
+  # Define explicitamente a chave composta da tabela de relacionamento
+  self.primary_key = [:aluno_id, :livro_id]
+
+  # Atributos virtuais
+  attr_accessor :aluno_id_input, :isbn_livro
 
   # Gatilhos do ciclo de vida
   after_initialize :definir_status_padrao, if: :new_record?
-  before_create :dar_baixa_no_estoque_ao_criar # Garante que só altera o estoque se passar em todas as validações!
+  before_create :dar_baixa_no_estoque_ao_criar 
   before_save :atualizar_estoque_na_devolucao, if: :status_changed?
 
   # Validações Padrão
@@ -16,10 +19,28 @@ class Emprestimo < ApplicationRecord
 
   # Métodos de validação customizados
   validate :data_devolucao_nao_pode_ser_no_passado, on: :create
-  validate :verificar_se_tem_matricula, on: :create
+  validate :verificar_se_tem_aluno, on: :create
   validate :verificar_estoque, on: :create
 
-  # Busca pré-definidas
+  # BUSCA AJUSTADA (Sem emprestimos.id)
+  def self.search(query)
+    if query.present?
+      termo = "%#{query.downcase}%"
+      
+      left_outer_joins(:aluno, :livro).where(
+        "CAST(emprestimos.aluno_id AS CHAR) LIKE :q OR 
+         CAST(emprestimos.livro_id AS CHAR) LIKE :q OR 
+         LOWER(alunos.nome_completo) LIKE :q OR 
+         LOWER(livros.titulo) LIKE :q OR 
+         LOWER(emprestimos.status) LIKE :q", 
+        q: termo
+      ).order(data_emprestimo: :desc)
+    else
+      order(data_emprestimo: :desc)
+    end
+  end
+
+  # Buscas pré-definidas
   scope :emprestados, -> { where(status: "Emprestado") }
   scope :devolvidos, -> { where(status: "Devolvido") }
 
@@ -37,14 +58,14 @@ class Emprestimo < ApplicationRecord
     end
   end
 
-  # Prossegue com o empréstimo caso a matrícula exista
-  def verificar_se_tem_matricula
-    aluno_encontrado = Aluno.find_by(matricula: matricula_aluno)
+  # Prossegue com o empréstimo caso o ID do Aluno exista
+  def verificar_se_tem_aluno
+    aluno_encontrado = Aluno.find_by(id: aluno_id_input)
 
     if aluno_encontrado.present?
       self.aluno = aluno_encontrado
     else
-      errors.add(:matricula_aluno, "não encontrada")
+      errors.add(:aluno_id_input, "não encontrado no sistema")
     end
   end
 

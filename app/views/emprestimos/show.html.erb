@@ -1,4 +1,4 @@
-<% content_for :title, "Empréstimo - BiblioLili&Nana" %>
+<% content_for :title, "Detalhes do Empréstimo - BiblioLili&Nana" %>
 
 <div class="container my-5" style="max-width: 800px;">
   <div class="card shadow-lg border-0 rounded-4 overflow-hidden">
@@ -6,10 +6,10 @@
     <div class="card-header bg-dark p-4 border-0">
       <div class="d-flex align-items-center justify-content-between text-white">
         <div>
-          <h2 class="fw-bold mb-0">Empréstimo</h2>
-          <p class="text-info small mb-0">Dados cadastrais registrados no MySQL</p>
+          <h2 class="fw-bold mb-0">Detalhes do Empréstimo</h2>
+          <p class="text-info small mb-0">Dados completos do registro no sistema</p>
         </div>
-        <span class="fs-1 opacity-50">👤</span>
+        <span class="fs-1 opacity-50">📖</span>
       </div>
     </div>
 
@@ -18,19 +18,24 @@
         
         <div class="col-md-12 border-bottom pb-2">
           <span class="text-secondary small d-block fw-bold text-uppercase">Nome Completo do Aluno</span>
-          <span class="fs-4 fw-bold text-dark"><%= @emprestimo.aluno.nome_completo %></span>
+          <span class="fs-4 fw-bold text-dark"><%= @emprestimo.aluno&.nome_completo || "Aluno não encontrado" %></span>
+        </div>
+
+        <div class="col-md-6 border-bottom pb-2">
+          <span class="text-secondary small d-block fw-bold text-uppercase">CPF do Aluno</span>
+          <code class="fs-5 text-bold"><%= @emprestimo.aluno&.cpf || "N/A" %></code>
         </div>
 
         <div class="col-md-6 border-bottom pb-2">
           <span class="text-secondary small d-block fw-bold text-uppercase">Título do Livro</span>
-          <code class="fs-5 text-primary fw-bold"><%= @emprestimo.livro.titulo %></code>
+          <code class="fs-5 text-primary fw-bold"><%= @emprestimo.livro&.titulo || "Livro não encontrado" %></code>
         </div>
 
         <div class="col-md-6 border-bottom pb-2">
           <span class="text-secondary small d-block fw-bold text-uppercase">Status do empréstimo</span>
-          <% if @emprestimo.status == "Emprestado"%>
+          <% if @emprestimo.status == "Emprestado" %>
             <code class="fs-5 text-primary fw-bold"><%= @emprestimo.status %></code>
-          <%elsif @emprestimo.status == "Em atraso"%>
+          <% elsif @emprestimo.status == "Em atraso" %>
             <code class="fs-5 text-danger fw-bold"><%= @emprestimo.status %></code>
           <% else %>
             <code class="fs-5 text-success fw-bold"><%= @emprestimo.status %></code>
@@ -39,12 +44,12 @@
 
         <div class="col-md-6 border-bottom pb-2">
           <span class="text-secondary small d-block fw-bold text-uppercase">Data de empréstimo</span>
-          <span class="fs-5 text-dark"><%= @emprestimo.data_emprestimo.strftime('%d/%m/%Y') if @emprestimo.data_emprestimo %></span>
+          <span class="fs-5 text-dark"><%= @emprestimo.data_emprestimo&.strftime('%d/%m/%Y') %></span>
         </div>
 
         <div class="col-md-6 border-bottom pb-2">
           <span class="text-secondary small d-block fw-bold text-uppercase">Data de devolução</span>
-          <span class="fs-5 text-dark"><%= @emprestimo.data_devolucao.strftime('%d/%m/%Y') if @emprestimo.data_devolucao %></span>
+          <span class="fs-5 text-dark"><%= @emprestimo.data_devolucao&.strftime('%d/%m/%Y') %></span>
         </div>
       </div>
     </div>
@@ -53,7 +58,6 @@
       <%= link_to emprestimos_path, class: "btn btn-outline-secondary px-4 fw-semibold rounded-3" do %>
         📁 Voltar para Listagem
       <% end %>
-      </div>
     </div>
 
   </div>
