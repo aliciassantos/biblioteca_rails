@@ -32,7 +32,7 @@
 
     <div class="col-md-6">
       <%= form.label :isbn, "ISBN", class: "form-label fw-bold text-secondary small" %>
-      <%= form.text_field :isbn, class: "form-control shadow-sm", placeholder: "Digite os 13 dígitos do ISBN" %>
+      <%= form.text_field :isbn, class: "form-control shadow-sm", placeholder: "Digite os 13 dígitos do ISBN", maxlength: 13 %>
     </div>
 
     <div class="col-md-6">

@@ -4,7 +4,7 @@ class Aluno < ApplicationRecord
 
   # Validações
   validates :nome_completo, :cpf, :data_nascimento, presence: true
-  validates :cpf, uniqueness: true 
+  validates :cpf, uniqueness: true
 
   # Expressão Regular para validar o formato padrão de e-mails
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
@@ -14,16 +14,16 @@ class Aluno < ApplicationRecord
                     uniqueness: true,
                     format: { with: VALID_EMAIL_REGEX, message: "não é um e-mail válido" }
 
-  # BUSCAR POR ID, NOME, CPF OU EMAIL 
+  # BUSCAR POR ID, NOME, CPF OU EMAIL
   def self.search(query)
     if query.present?
       termo = "%#{query.downcase}%"
       # Ajustado de CHAR para VARCHAR(255) para garantir compatibilidade universal entre bancos
       where(
-        "CAST(id AS CHAR) LIKE :q OR 
-         LOWER(nome_completo) LIKE :q OR 
-         LOWER(cpf) LIKE :q OR 
-         LOWER(email) LIKE :q", 
+        "CAST(id AS CHAR(10)) LIKE :q OR
+         LOWER(nome_completo) LIKE :q OR
+         LOWER(cpf) LIKE :q OR
+         LOWER(email) LIKE :q",
         q: termo
       ).ordenados_por_id
     else

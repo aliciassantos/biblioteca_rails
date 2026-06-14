@@ -13,7 +13,7 @@ class HomeController < ApplicationController
 
     respond_to do |format|
       format.html # Carrega a página index.html.erb
-      
+
       format.csv do
         # Lógica para exportar lista de Alunos
         if params[:tipo] == "alunos"
@@ -28,14 +28,14 @@ class HomeController < ApplicationController
         # Lógica para exportar lista de Empréstimos
         elsif params[:tipo] == "emprestimos"
           csv_data = CSV.generate(headers: true) do |csv|
-            csv << ["ID", "Aluno", "Livro", "Data Empréstimo", "Data Devolução", "Status"]
+            csv << [ "ID", "Aluno", "Livro", "Data Empréstimo", "Data Devolução", "Status" ]
             @emprestimos.each do |e|
               csv << [
-                e.id, 
-                e.aluno&.nome_completo, 
-                e.livro&.titulo, 
-                e.data_emprestimo, 
-                e.data_devolucao, 
+                e.id,
+                e.aluno&.nome_completo,
+                e.livro&.titulo,
+                e.data_emprestimo,
+                e.data_devolucao,
                 e.status
               ]
             end

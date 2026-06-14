@@ -13,12 +13,12 @@ class Livro < ApplicationRecord
       # LOWER garante busca case-insensitive (ignora maiúsculas/minúsculas)
       # % antes e depois garante que filtre quem "contém" o termo buscado
       termo = "%#{query.downcase}%"
-      
+
       where(
-        "LOWER(titulo) LIKE :q OR 
-         LOWER(autor) LIKE :q OR 
-         LOWER(editora) LIKE :q OR 
-         LOWER(isbn) LIKE :q", 
+        "LOWER(titulo) LIKE :q OR
+         LOWER(autor) LIKE :q OR
+         LOWER(editora) LIKE :q OR
+         LOWER(isbn) LIKE :q",
         q: termo
       ).order(:titulo)
     else
@@ -26,6 +26,6 @@ class Livro < ApplicationRecord
     end
   end
 
- # Buscas pré-definidas
+  # Buscas pré-definidas
   scope :ordenado_por_id, -> { order(id: :asc) }
 end
