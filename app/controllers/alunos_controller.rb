@@ -10,7 +10,7 @@ class AlunosController < ApplicationController
       format.html # Carrega a página index.html.erb com a barra de pesquisa compacta
       format.json { render json: Aluno.all }
 
-      # REQUISITO D): Configura a geração de PDF usando a Gem Prawn (Sem Matrícula)
+      # REQUISITO D): Configura a geração de PDF usando a Gem Prawn
       format.pdf do
         pdf = Prawn::Document.new(page_size: "A4", page_layout: :portrait)
 

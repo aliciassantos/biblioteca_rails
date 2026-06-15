@@ -11,6 +11,7 @@ class Emprestimo < ApplicationRecord
   # Gatilhos do ciclo de vida
   after_initialize :definir_status_padrao, if: :new_record?
   before_create :dar_baixa_no_estoque_ao_criar 
+  before_save :atualizar_status_por_atraso
   before_save :atualizar_estoque_na_devolucao, if: :status_changed?
 
   # Validações Padrão
@@ -22,7 +23,7 @@ class Emprestimo < ApplicationRecord
   validate :verificar_se_tem_aluno, on: :create
   validate :verificar_estoque, on: :create
 
-  # BUSCA AJUSTADA (Sem emprestimos.id)
+  # Busca Ajustada
   def self.search(query)
     if query.present?
       termo = "%#{query.downcase}%"
@@ -43,6 +44,7 @@ class Emprestimo < ApplicationRecord
   # Buscas pré-definidas
   scope :emprestados, -> { where(status: "Emprestado") }
   scope :devolvidos, -> { where(status: "Devolvido") }
+  scope :em_atraso, -> { where(status: "Em atraso") }
 
   # Verifica se a data de devolução já expirou
   def devolucao_vencida?
@@ -50,6 +52,13 @@ class Emprestimo < ApplicationRecord
   end
 
   private
+
+  # Robusto: Garante que o status no banco mude para "Em atraso" se necessário
+  def atualizar_status_por_atraso
+    if status == "Emprestado" && devolucao_vencida?
+      self.status = "Em atraso"
+    end
+  end
 
   # Verifica se a data de devolução foi preenchida corretamente
   def data_devolucao_nao_pode_ser_no_passado

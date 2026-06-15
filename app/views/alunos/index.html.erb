@@ -14,7 +14,7 @@
       <% end %>
 
       <% # Requisito d) PDF com Prawn %>
-      <%= link_to alunos_path(format: :pdf), class: "btn btn-danger shadow-sm d-inline-flex align-items-center gap-2 fw-bold" do %>
+      <%= link_to alunos_path(format: :pdf, search: params[:search]), class: "btn btn-danger shadow-sm d-inline-flex align-items-center gap-2 fw-bold" do %>
         📊 Gerar PDF (Prawn)
       <% end %>
       

@@ -11,7 +11,7 @@
         🏠 Voltar ao Menu
       <% end %>
 
-      <%= link_to emprestimos_path(format: :pdf), class: "btn btn-danger shadow-sm d-inline-flex align-items-center gap-2 fw-bold" do %>
+      <%= link_to emprestimos_path(format: :pdf, search: params[:search]), class: "btn btn-danger shadow-sm d-inline-flex align-items-center gap-2 fw-bold" do %>
         📊 Gerar PDF (Prawn)
       <% end %>
 
@@ -73,7 +73,7 @@
                 <td>
                   <% if emprestimo.status == "Devolvido" %>
                     <span class="badge bg-success">Devolvido</span>
-                  <% elsif emprestimo.devolucao_vencida? %>
+                  <% elsif emprestimo.status == "Em atraso" || emprestimo.devolucao_vencida? %>
                     <span class="badge bg-danger">Em atraso</span>
                   <% else %>
                     <span class="badge bg-primary">Emprestado</span>
