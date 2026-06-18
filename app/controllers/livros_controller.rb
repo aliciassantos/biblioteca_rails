@@ -3,14 +3,14 @@ class LivrosController < ApplicationController
 
   # GET /livros or /livros.json
   def index
-    # Aplica o método de busca multimoldura e depois a paginação do Kaminari (5 por página)
-    @livros = Livro.search(params[:search]).page(params[:page]).per(5)
+    # Aplica o método de busca multimoldura e depois a paginação do Kaminari
+    @livros = Livro.search(params[:search]).page(params[:page]).per(10)
 
     respond_to do |format|
       format.html # Carrega a página index.html.erb normal no navegador
       format.json { render json: Livro.all }
 
-      # REQUISITO D): Configura a geração de PDF usando a Gem Prawn
+      # Configura a geração de PDF usando a Gem Prawn
       format.pdf do
         pdf = Prawn::Document.new(page_size: "A4", page_layout: :portrait)
 
@@ -97,12 +97,26 @@ class LivrosController < ApplicationController
 
   # DELETE /livros/1 or /livros/1.json
   def destroy
-    @livro.destroy!
-
-    respond_to do |format|
-      format.html { redirect_to livros_path, notice: "Livro removido com sucesso.", status: :see_other }
-      format.json { head :no_content }
+    # Verifica se existe algum empréstimo pendente (Emprestado ou Em atraso)
+    # Isso cobre todos os casos de bloqueio necessários
+    if @livro.emprestimos.where(status: ['Emprestado', 'Em atraso']).exists?
+      flash[:alert] = "Não é possível excluir este livro: ele possui empréstimos pendentes ou em atraso."
+      redirect_to livros_path
+      return # Interrompe a execução aqui para não tentar deletar
     end
+
+    if @livro.destroy
+      redirect_to livros_path, notice: "Livro removido com sucesso."
+    else
+      # Isso ocorre caso o Model impeça a exclusão por outras regras (como o restrict_with_error)
+      flash[:alert] = "Este livro possui registros de histórico e não pode ser excluído no momento."
+      redirect_to livros_path
+    end
+
+  rescue ActiveRecord::InvalidForeignKey
+    # Este bloco captura tentativas de excluir livros que possuem histórico (Devolvido)
+    flash[:alert] = "Este livro possui registros de histórico de empréstimos e não pode ser excluído no momento."
+    redirect_to livros_path
   end
 
   private
@@ -111,7 +125,7 @@ class LivrosController < ApplicationController
       @livro = Livro.find(params.expect(:id))
     end
 
-    # Somente parâmetros permitidos através do Strong Parameters
+    # Somente parâmetros permitidos através do Strong Parameters, filtra campos que pode ser alterados
     def livro_params
       params.expect(livro: [ :titulo, :autor, :editora, :isbn, :ano_publicacao, :quantidade_estoque ])
     end

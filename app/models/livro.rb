@@ -1,6 +1,7 @@
 class Livro < ApplicationRecord
   # Associações
-  has_many :emprestimos
+  # O 'restrict_with_error' impede a exclusão se houver registros vinculados
+  has_many :emprestimos, dependent: :restrict_with_error
 
   # Validações
   validates :titulo, :autor, :isbn, :quantidade_estoque, presence: true

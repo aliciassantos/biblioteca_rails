@@ -2,7 +2,7 @@ class EmprestimosController < ApplicationController
   before_action :set_emprestimo, only: %i[ show edit update destroy ]
 
   def index
-    @emprestimos = Emprestimo.search(params[:search]).page(params[:page]).per(5)
+    @emprestimos = Emprestimo.search(params[:search]).page(params[:page]).per(10)
 
     respond_to do |format|
       format.html

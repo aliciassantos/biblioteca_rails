@@ -23,7 +23,7 @@ class Emprestimo < ApplicationRecord
   validate :verificar_se_tem_aluno, on: :create
   validate :verificar_estoque, on: :create
 
-  # Busca Ajustada
+  # BUSCA 
   def self.search(query)
     if query.present?
       termo = "%#{query.downcase}%"
@@ -53,7 +53,7 @@ class Emprestimo < ApplicationRecord
 
   private
 
-  # Robusto: Garante que o status no banco mude para "Em atraso" se necessário
+  # Garante que o status no banco mude para "Em atraso" se necessário
   def atualizar_status_por_atraso
     if status == "Emprestado" && devolucao_vencida?
       self.status = "Em atraso"

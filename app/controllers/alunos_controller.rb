@@ -4,7 +4,7 @@ class AlunosController < ApplicationController
   # GET /alunos or /alunos.json
   def index
     # Integra a busca por contencimento e depois aplica a paginação do Kaminari
-    @alunos = Aluno.search(params[:search]).page(params[:page]).per(5)
+    @alunos = Aluno.search(params[:search]).page(params[:page]).per(10)
 
     respond_to do |format|
       format.html # Carrega a página index.html.erb com a barra de pesquisa compacta
@@ -19,7 +19,7 @@ class AlunosController < ApplicationController
         pdf.text "Relatório Geral de Alunos Cadastrados", size: 13, align: :center, color: "555555"
         pdf.move_down 25
 
-        # Monta a estrutura de colunas e dados da tabela do PDF (Removido "Matrícula")
+        # Monta a estrutura de colunas e dados da tabela do PDF 
         dados_tabela = [ [ "ID", "Nome Completo", "CPF", "Idade" ] ]
 
         # Puxa os alunos baseando-se na pesquisa atual 
@@ -108,7 +108,7 @@ class AlunosController < ApplicationController
       @aluno = Aluno.find(params[:id])
     end
 
-    # Filtro de segurança (Strong Parameters) - Removido completamente o atributo :matricula
+    # Filtro de segurança (Strong Parameters)
     def aluno_params
       params.require(:aluno).permit(:nome_completo, :cpf, :data_nascimento, :email, :telefone)
     end
